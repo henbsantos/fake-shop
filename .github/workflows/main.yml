@@ -41,12 +41,9 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-
-
-
-
-      
+   
       - name: Configurar kubectl
-        run: echo "Executanto o comando aws eks update-kubeconfig"
+        run: aws eks update-kubeconfig --name aula-eks 
+        
       - name: Deploy dos manifestos no kubernetes
         run: echo "Executanto o comando kubectl apply"        
