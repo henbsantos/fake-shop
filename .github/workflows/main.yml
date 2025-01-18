@@ -28,14 +28,24 @@ jobs:
             henbsantos/fake-shop:latest
             henbsantos/fake-shop:v${{ github.run_number }}
 
-
-
   cd:
     runs-on: ubuntu-latest
     needs: [ci]
     steps:
+      - name: Obter o codigo do Projeto
+        uses: actions/checkout@v4.2.2
+      
       - name: Autenticar na AWS
-        run: echo "Executanto o comando aws configure"
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+
+
+
+      
       - name: Configurar kubectl
         run: echo "Executanto o comando aws eks update-kubeconfig"
       - name: Deploy dos manifestos no kubernetes
