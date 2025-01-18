@@ -8,18 +8,27 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
+
       - name: Obter o codigo do Projeto
         uses: actions/checkout@v4.2.2
+
       - name: Autenticar no Docker Hub
         uses: docker/login-action@v3
         with:
             username: ${{ secrets.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Contrução imagem Docker
-        run: echo "Executanto o comando Docker Build"
-      - name: Envio da imagem Docker
-        run: echo "Executanto o comando Docker Push"        
+      - name: Contrução e envido da imagem Docker
+        uses: docker/build-push-action@v6
+        with:
+          context: ./src
+          push: true
+          file: ./src/Dockerfile
+          tags: |
+            henbsantos/fake-shop:latest
+            henbsantos/fake-shop:v${{ github.run_number }}
+
+
 
   cd:
     runs-on: ubuntu-latest
